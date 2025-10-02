@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="favicon/web-app-manifest-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="favicon/web-app-manifest-512x512.png">
+    <link rel="manifest" href="favicon/site.webmanifest">
+    <meta name="theme-color" content="#ffffff">
+    <title>Paws & Claws - Pet Adoption</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            <img src="images\pets\logo.jpg" alt="Paws & Claws Logo">
+            <h1>Paws & Claws</h1>
+        </div>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+                <li id="login-nav-item"><a href="login.html">Login</a></li>
+                <li id="dashboard-nav-item" style="display: none;"><a href="dashboard.html">Dashboard</a></li>
+                <li id="logout-nav-item" style="display: none;"><a href="#" id="logout-button">Logout</a></li>
+            </ul>
+        </nav>
+        <button class="menu-toggle" aria-label="Toggle navigation">
+            <i class="fas fa-bars"></i>
+        </button>
+    </header>
+
+    <main class="content-area">
+        <section id="home-page" class="page-section active">
+            <div class="carousel-container">
+                <div class="carousel-slide active">
+                    <img src="images/c11.png" alt="Slide 1">
+                    
+                </div>
+                
+                
+
+            </div>
+
+            <section class="how-it-works">
+                <h2>How It Works</h2>
+                <div class="steps-container">
+                    <div class="step">
+                        <i class="fas fa-search"></i>
+                        <h3>Search</h3>
+                        <p>Find pets near you based on type, age, and more.</p>
+                    </div>
+                    <div class="step">
+                        <i class="fas fa-heart"></i>
+                        <h3>Meet</h3>
+                        <p>Connect with owners and meet your potential new family member.</p>
+                    </div>
+                    <div class="step">
+                        <i class="fas fa-home"></i>
+                        <h3>Adopt</h3>
+                        <p>Complete the adoption process and welcome them home!</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="customer-feedback">
+                <h2>What Our Adopters Say</h2>
+                <div class="feedback-grid">
+                    <div class="feedback-card">
+                        <p>"Adopting Mittens through Paws & Claws was the best decision! The process was so smooth."</p>
+                        <h4>- Priya S.</h4>
+                    </div>
+                    <div class="feedback-card">
+                        <p>"Found my perfect dog, Buddy, here. Highly recommend this platform for anyone looking to adopt."</p>
+                        <h4>- Rohan M.</h4>
+                    </div>
+                    <div class="feedback-card">
+                        <p>"The team was incredibly helpful and supportive throughout. Thank you for our new family member!"</p>
+                        <h4>- Sameer K.</h4>
+                    </div>
+                </div>
+            </section>
+
+            <section class="adopt-now-section">
+                <a href="adopt.html" class="adopt-now-button">Adopt Now!</a>
+            </section>
+        </section>
+    </main>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

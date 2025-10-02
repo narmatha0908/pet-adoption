@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Favicons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="favicon/web-app-manifest-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="favicon/web-app-manifest-512x512.png">
+    <link rel="manifest" href="favicon/site.webmanifest">
+    <meta name="theme-color" content="#ffffff">
+  <title>Adopt Now - Paws & Claws</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <header class="header">
+    <div class="logo">
+      <img src="images\pets\logo.jpg" alt="Paws & Claws Logo">
+      <h1>Paws & Claws</h1>
+    </div>
+    <nav class="main-nav">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+        <li><a href="dashboard.html">Dashboard</a></li>
+        <li><a href="#" id="logout-button">Logout</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="content-area">
+    <h2>Adopt a Pet</h2>
+
+    <div class="filter-section">
+      <div class="filter-group">
+        <label for="filter-type">Pet Type</label>
+        <select id="filter-type">
+          <option value="">All</option>
+          <option value="dog">Dog</option>
+          <option value="cat">Cat</option>
+          <option value="rabbit">Rabbit</option>
+          <option value="bird">Bird</option>
+          <option value="fish">Fish</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label for="filter-size">Size</label>
+        <select id="filter-size">
+          <option value="">All</option>
+          <option value="Small">Small</option>
+          <option value="Medium">Medium</option>
+          <option value="Large">Large</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label for="filter-age">Age</label>
+        <select id="filter-age">
+          <option value="">All</option>
+          <option value="3 months">3 months</option>
+          <option value="6 months">6 months</option>
+          <option value="1 year">1 year</option>
+          <option value="2 years">2 years</option>
+          <option value="3 years">3 years</option>
+          <option value="4 years">4 years</option>
+        </select>
+      </div>
+
+      <button id="reset-filters">Reset</button>
+    </div>
+
+    <div class="pet-cards-container" id="pet-cards-container"></div>
+  </main>
+
+  <script>
+    // --- Redirect if not logged in ---
+    if (!localStorage.getItem('currentUser')) {
+      window.location.href = 'login.html';
+    }
+
+    // --- Logout ---
+    document.getElementById('logout-button').addEventListener('click', (e) => {
+      e.preventDefault();
+      localStorage.removeItem('currentUser');
+      window.location.href = 'index.html';
+    });
+
+    // --- Consistent Pet Data ---
+    // PASTE THIS ENTIRE BLOCK to replace the old pets array
+    // --- Enhanced Pet Data ---
+    const pets = [
+      { id: "pet1", type: "dog", name: "Buddy", breed: "Golden Retriever", age: "2 years", size: "Large", image: "images/images/Leo.jpg", description: "Buddy is a friendly and energetic Golden Retriever who loves to play fetch and go for long walks. He is great with kids and other dogs." },
+      { id: "pet2", type: "cat", name: "Whiskers", breed: "Siamese Cat", age: "1 year", size: "Small", image: "images/images/Rex.jpg", description: "Whiskers is a curious and affectionate Siamese cat. She enjoys napping in sunny spots and chasing laser pointers." },
+      { id: "pet3", type: "rabbit", name: "Snowball", breed: "Mini Lop", age: "6 months", size: "Small", image: "images/pets/thumper.jpg", description: "Snowball is a gentle and calm Mini Lop. He is litter-trained and loves being gently petted." },
+      { id: "pet4", type: "fish", name: "Finley", breed: "Betta Fish", age: "3 months", size: "Small", image: "images/pets/goldie.jpg", description: "Finley is a vibrant Betta with a flowing tail. He is an active swimmer and adds a splash of color to any room." },
+      { id: "pet5", type: "dog", name: "Rocky", breed: "Bulldog", age: "3 years", size: "Medium", image: "images/pets/buddy.jpg", description: "Rocky is a loyal and laid-back Bulldog. His favorite activities are napping and getting belly rubs." },
+      { id: "pet6", type: "cat", name: "Milo", breed: "Persian Cat", age: "2 years", size: "Small", image: "images/cat 2.jpg", description: "Milo is a majestic Persian with a luxurious coat. He is a calm soul who enjoys a quiet and peaceful environment." },
+      { id: "pet7", type: "bird", name: "Coco", breed: "Parrot", age: "1 year", size: "Small", image: "images/pets/kiwi.jpg", description: "Coco is a cheerful Parrot who is learning to mimic sounds. She loves fruits and interacting with people." },
+      { id: "pet8", type: "dog", name: "Max", breed: "Beagle", age: "4 years", size: "Medium", image: "images/dog 7.jpg", description: "Max is an adventurous Beagle who loves to explore. He has a great sense of smell and is always ready for a new adventure." },
+      { id: "pet9", type: "cat", name: "Luna", breed: "Maine Coon", age: "2 years", size: "Large", image: "images/images/luna.jpg", description: "Luna is a gentle giant. This Maine Coon is very sociable, loves to cuddle, and gets along well with other pets." },
+    ];
+
+    const container = document.getElementById('pet-cards-container');
+    const typeFilter = document.getElementById('filter-type');
+    const sizeFilter = document.getElementById('filter-size');
+    const ageFilter = document.getElementById('filter-age');
+    const resetBtn = document.getElementById('reset-filters');
+
+    const currentUser = localStorage.getItem('currentUser');
+
+    let userActivity = JSON.parse(localStorage.getItem('userActivity')) || {};
+    if (!userActivity[currentUser]) {
+      userActivity[currentUser] = { wishlist: [], requests: [], adopted: [] };
+      localStorage.setItem('userActivity', JSON.stringify(userActivity));
+    }
+
+    function renderPets(filteredPets) {
+      container.innerHTML = '';
+      if (filteredPets.length === 0) {
+        container.innerHTML = '<p class="empty-message">No pets match your filters.</p>';
+        return;
+      }
+
+      const currentUserData = userActivity[currentUser];
+
+      filteredPets.forEach(pet => {
+        const card = document.createElement('div');
+        card.classList.add('pet-card');
+
+        const isInWishlist = currentUserData.wishlist.includes(pet.id);
+        const isRequested = currentUserData.requests.includes(pet.id);
+
+        card.innerHTML = `
+            <img src="${pet.image}" alt="${pet.name}">
+            <div class="pet-info">
+                <h3>${pet.name}</h3>
+                <p><strong>Breed:</strong> ${pet.breed}</p>
+                <p><strong>Age:</strong> ${pet.age}</p>
+                <p><strong>Size:</strong> ${pet.size}</p>
+                <p>${pet.description}</p>
+                <div class="pet-actions">
+                    <button class="wishlist-btn" data-pet-id="${pet.id}" ${isInWishlist ? 'disabled' : ''}>
+                        ${isInWishlist ? 'Wishlisted ✓' : 'Add to Wishlist'}
+                    </button>
+                    <button class="adopt-btn" data-pet-id="${pet.id}" ${isRequested ? 'disabled' : ''}>
+                        ${isRequested ? 'Requested' : 'Request to Adopt'}
+                    </button>
+                </div>
+            </div>
+        `;
+
+        const wishlistBtn = card.querySelector('.wishlist-btn');
+        wishlistBtn.addEventListener('click', () => {
+          if (!currentUserData.wishlist.includes(pet.id)) {
+            currentUserData.wishlist.push(pet.id);
+            localStorage.setItem('userActivity', JSON.stringify(userActivity));
+            wishlistBtn.textContent = 'Wishlisted ✓';
+            wishlistBtn.disabled = true;
+          }
+        });
+
+        const adoptBtn = card.querySelector('.adopt-btn');
+        adoptBtn.addEventListener('click', () => {
+          if (!currentUserData.requests.includes(pet.id)) {
+            currentUserData.requests.push(pet.id);
+            localStorage.setItem('userActivity', JSON.stringify(userActivity));
+            adoptBtn.textContent = 'Requested';
+            adoptBtn.disabled = true;
+          }
+        });
+
+        container.appendChild(card);
+      });
+    }
+
+    function applyFilters() {
+      const typeVal = typeFilter.value;
+      const sizeVal = sizeFilter.value;
+      const ageVal = ageFilter.value;
+
+      const filtered = pets.filter(pet => {
+        return (!typeVal || pet.type === typeVal) &&
+          (!sizeVal || pet.size === sizeVal) &&
+          (!ageVal || pet.age === ageVal);
+      });
+      renderPets(filtered);
+    }
+
+    typeFilter.addEventListener('change', applyFilters);
+    sizeFilter.addEventListener('change', applyFilters);
+    ageFilter.addEventListener('change', applyFilters);
+    resetBtn.addEventListener('click', () => {
+      typeFilter.value = '';
+      sizeFilter.value = '';
+      ageFilter.value = '';
+      renderPets(pets);
+    });
+
+    renderPets(pets);
+  </script>
+</body>
+
+</html>
